@@ -53,6 +53,7 @@ gem 'acts_as_votable', github: 'ryanto/acts_as_votable'
 gem 'tzinfo-data'
 gem 'validates_formatting_of'
 
+gem 'snoo'
 gem 'chronic'
 
 gem 'powder'

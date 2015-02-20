@@ -1,0 +1,17 @@
+- model_class = Item
+.page-header
+  -#%h1= t '.title', :default => Item
+%table.table.table-striped
+  %thead
+    %tr
+      -#%th
+      -#%th= model_class.human_attribute_name(:title)
+      -#%th= model_class.human_attribute_name(:price)
+      -#%th= t '.actions', :default => t("helpers.actions")
+  %tbody
+    - @items.each do |item|
+      %tr
+        %td
+          %img{ src: "#{item.thumbnail}" }
+        %td= link_to(item.title, item.url)
+        %td= item.price

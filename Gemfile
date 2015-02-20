@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.4'
+gem 'rails', '4.2.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -16,8 +16,6 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -47,10 +45,20 @@ end
 
 gem 'devise', github: 'plataformatec/devise'
 gem 'omniauth'
-gem 'omniauth-facebook'
+# gem 'omniauth-facebook'
 gem 'binding_of_caller'
 gem 'bootstrap-sass', github: 'twbs/bootstrap-sass'
 gem 'bootstrap-sass-extras'
 gem 'acts_as_votable', github: 'ryanto/acts_as_votable'
 gem 'tzinfo-data'
 gem 'validates_formatting_of'
+
+gem 'chronic'
+
+gem 'powder'
+gem "awesome_print"
+
+gem 'haml-rails'
+
+gem 'formtastic', :github => 'justinfrench/formtastic', :branch => 'master'
+gem 'formtastic-bootstrap'

@@ -1,17 +1,14 @@
 - model_class = Item
-.page-header
-  -#%h1= t '.title', :default => Item
-%table.table.table-striped
-  %thead
-    %tr
-      -#%th
-      -#%th= model_class.human_attribute_name(:title)
-      -#%th= model_class.human_attribute_name(:price)
-      -#%th= t '.actions', :default => t("helpers.actions")
-  %tbody
-    - @items.each do |item|
-      %tr
-        %td
-          %img{ src: "#{item.thumbnail}" }
-        %td= link_to(item.title, item.url)
-        %td= item.price
+- @items.each do |item|
+  .row
+    .col-xs2.col-md-2
+    .col-xs8.col-md-8
+      %table.table
+        %tbody
+          %tr
+            %td{ style: "width: 214px; height: 145px;" }
+              %img{ src: "#{item.thumbnail}", style: "width: 140px; height: 128px;" }
+            %td
+              .lead= link_to(item.title, item.url)
+              = item.price
+    .col-xs2.col-md-2

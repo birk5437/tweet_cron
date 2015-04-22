@@ -3,6 +3,7 @@ class CreatePosts < ActiveRecord::Migration
     create_table :posts do |t|
       t.string :type
       t.text :text
+      t.text :tweet_id
       t.timestamps
     end
   end

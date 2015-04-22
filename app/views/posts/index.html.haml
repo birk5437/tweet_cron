@@ -1,0 +1,13 @@
+- model_class = Post
+- @posts.each do |post|
+  .row
+    .col-xs2.col-md-2
+    .col-xs8.col-md-8
+      %table.table
+        %tbody
+          %tr
+            %td{ style: "width: 214px; height: 145px;" }
+              = post.created_at.to_s
+            %td
+              = post.text
+    .col-xs2.col-md-2

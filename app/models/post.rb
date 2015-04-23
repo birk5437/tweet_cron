@@ -19,6 +19,8 @@ class Post < ActiveRecord::Base
   def post_to_twitter
     if valid?
       ActiveRecord::Base.transaction do
+        self.published = true
+        self.published_at = DateTime.now
         tweet = client.update(text)
         self.tweet_id = tweet.id
         save!
@@ -28,7 +30,14 @@ class Post < ActiveRecord::Base
 
   # TODO: Use Acts as State Machine gem
   def delete_from_twitter
-    client.destroy_status(tweet_id) if tweet_id.present?
+    if valid?
+      ActiveRecord::Base.transaction do
+        self.published = false
+        self.published_at = nil
+        self.save!
+        client.destroy_status(tweet_id) if tweet_id.present?
+      end
+    end
   end
 
 end

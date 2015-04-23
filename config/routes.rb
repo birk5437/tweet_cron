@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
-  resources :posts
+  resources :posts do
+    member do
+      get "publish_to_twitter"
+      get "delete_from_twitter"
+    end
+  end
 
   resources :items do
   #->Prelang (voting/acts_as_votable)

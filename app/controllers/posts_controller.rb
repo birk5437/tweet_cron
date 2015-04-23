@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy, :vote]
+  before_action :set_post, only: [:show, :edit, :update, :destroy, :vote, :delete_from_twitter, :publish_to_twitter]
 
   # GET /posts
   # GET /posts.json
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
         format.html { redirect_to posts_path, notice: 'Post was successfully created.' }
         format.json { render :index, status: :created, location: @post }
       else
-        format.html { render :show }
+        format.html { render :new }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
@@ -61,6 +61,29 @@ class PostsController < ApplicationController
     end
   end
 
+  def publish_to_twitter
+    respond_to do |format|
+      if @post.post_to_twitter
+        format.html { redirect_to posts_path, notice: 'Post was successfully published to your Twitter feed.' }
+        format.json { render :index, status: :created, location: @post }
+      else
+        format.html { render :index }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def delete_from_twitter
+    respond_to do |format|
+      if @post.delete_from_twitter
+        format.html { redirect_to posts_path, notice: 'Post was deleted from your Twitter feed.' }
+        format.json { render :index, status: :created, location: @post }
+      else
+        format.html { render :index }
+        format.json { render json: @post.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   private
     # Use callbacks to share common setup or constraints between actions.

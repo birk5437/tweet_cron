@@ -4,7 +4,7 @@ class Post < ActiveRecord::Base
 
   validates_presence_of :text
 
-  after_create :post_to_twitter
+  # after_create :post_to_twitter
 
   def client
     @client ||= Twitter::REST::Client.new do |config|

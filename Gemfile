@@ -55,6 +55,9 @@ gem 'validates_formatting_of'
 gem 'twitter'
 gem 'chronic'
 
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.7.14'
+
 gem 'powder'
 gem "awesome_print"
 

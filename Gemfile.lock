@@ -85,6 +85,8 @@ GEM
       debug_inspector (>= 0.0.1)
     bootstrap-sass-extras (0.0.6)
       rails (>= 3.1.0)
+    bootstrap3-datetimepicker-rails (4.7.14)
+      momentjs-rails (>= 2.8.1)
     buftok (0.2.0)
     builder (3.2.2)
     chronic (0.10.2)
@@ -143,6 +145,8 @@ GEM
     mime-types (2.4.3)
     mini_portile (0.6.2)
     minitest (5.5.1)
+    momentjs-rails (2.10.2)
+      railties (>= 3.1)
     multi_json (1.10.1)
     multipart-post (2.0.0)
     naught (1.0.0)
@@ -252,6 +256,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass!
   bootstrap-sass-extras
+  bootstrap3-datetimepicker-rails (~> 4.7.14)
   bundler
   chronic
   coffee-rails (~> 4.0.0)
@@ -261,6 +266,7 @@ DEPENDENCIES
   haml-rails
   jbuilder (~> 2.0)
   jquery-rails
+  momentjs-rails (>= 2.9.0)
   omniauth
   pg
   powder

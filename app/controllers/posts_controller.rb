@@ -4,7 +4,7 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all
+    @posts = Post.all.order("created_at DESC")
   end
 
   # GET /posts/1
@@ -93,6 +93,8 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      params.require(:post).permit(:text, :type)
+      hsh = params.require(:post).permit(:text, :type, :post_at)
+      hsh[:post_at] = Chronic.parse(hsh[:post_at]) if hsh[:post_at].present?
+      hsh
     end
 end

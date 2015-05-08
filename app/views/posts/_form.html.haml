@@ -5,7 +5,20 @@
     .col-md-10
       = f.text_area :text, :class => 'text-field form-control'
   .form-group
+    = f.label :post_at, :class => 'control-label col-md-2'
+    .col-md-10
+      - post_at_value = @post.post_at.present? ? @post.post_at.strftime("%m/%d/%Y %l:%M %p") : nil
+      = f.text_field :post_at, :class => 'text-field form-control', :value => post_at_value
+  .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, :class => 'btn btn-primary'
       = link_to t('.cancel', :default => t("helpers.links.cancel")), |
         posts_path, :class => 'btn btn-default'                      |
+
+-#http://eonasdan.github.io/bootstrap-datetimepicker/
+:javascript
+  $(document).ready(function(){
+    $("#post_post_at").datetimepicker({
+      sideBySide: true
+    });
+  });

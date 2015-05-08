@@ -55,6 +55,9 @@ gem 'validates_formatting_of'
 gem 'twitter'
 gem 'chronic'
 
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.7.14'
+
 gem 'powder'
 gem "awesome_print"
 
@@ -62,3 +65,9 @@ gem 'haml-rails'
 
 gem 'formtastic', :github => 'justinfrench/formtastic', :branch => 'master'
 gem 'formtastic-bootstrap'
+
+# Resque and it's plugins
+gem "resque", :require => 'resque/server'
+gem 'resque-scheduler', :require => 'resque/scheduler'
+gem "resque-status"
+gem "resque-retry"

@@ -18,6 +18,9 @@ end
   devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", passwords: "users/passwords"}, skip: [:sessions, :registrations]
 
   root 'posts#index'
+  require 'resque/scheduler/server'
+  mount Resque::Server.new, :at => "/resque"
+  # mount ResqueWeb::Engine => "/resque_web"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

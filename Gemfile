@@ -65,3 +65,9 @@ gem 'haml-rails'
 
 gem 'formtastic', :github => 'justinfrench/formtastic', :branch => 'master'
 gem 'formtastic-bootstrap'
+
+# Resque and it's plugins
+gem "resque", :require => 'resque/server'
+gem "resque-scheduler"
+gem "resque-status"
+gem "resque-retry"

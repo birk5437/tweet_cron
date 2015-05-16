@@ -3,10 +3,16 @@
 - model_class = Post
 %table.table.table-striped
   %thead
+    %tr
+      %th Created At
+      %th Post At
+      %th Text
+      %th
   %tbody
     - @posts.sort_by(&:created_at).reverse.each do |post|
       %tr
         %td= post.created_at.to_s
+        %td= post.post_at.to_s
         %td= post.text
         %td
           = link_to "Edit", edit_post_path(post)

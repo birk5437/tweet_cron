@@ -4,7 +4,7 @@ class Post < ActiveRecord::Base
 
   validates_presence_of :text
 
-  # after_create :post_to_twitter
+  after_save :schedule_job
 
   def client
     @client ||= Twitter::REST::Client.new do |config|
@@ -37,6 +37,15 @@ class Post < ActiveRecord::Base
         self.save!
         client.destroy_status(tweet_id) if tweet_id.present?
       end
+    end
+  end
+
+  def schedule_job
+    if post_at_changed?
+      Rails::logger.warn("BURKE - ENQUEUEING POST")
+      Resque.remove_delayed(PostSubmitWorker, id)
+      Resque::Job.destroy(:tweet_cron, "PostSubmitWorker", id)
+      Resque.enqueue_at(post_at, PostSubmitWorker, id)
     end
   end
 

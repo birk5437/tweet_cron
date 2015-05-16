@@ -7,7 +7,7 @@
   .form-group
     = f.label :post_at, :class => 'control-label col-md-2'
     .col-md-10
-      = f.text_field :post_at, :class => 'text-field form-control'
+      = f.text_field :post_at, :class => 'text-field form-control', :value => @post.post_at.strftime("%m/%d/%Y %l:%M %p")
   .form-group
     .col-md-offset-2.col-md-10
       = f.submit nil, :class => 'btn btn-primary'
@@ -16,6 +16,8 @@
 
 -#http://eonasdan.github.io/bootstrap-datetimepicker/
 :javascript
-  $("#post_post_at").datetimepicker({
-    sideBySide: true
+  $(document).ready(function(){
+    $("#post_post_at").datetimepicker({
+      sideBySide: true
+    });
   });

@@ -68,6 +68,6 @@ gem 'formtastic-bootstrap'
 
 # Resque and it's plugins
 gem "resque", :require => 'resque/server'
-gem "resque-scheduler"
+gem 'resque-scheduler', :require => 'resque/scheduler'
 gem "resque-status"
 gem "resque-retry"

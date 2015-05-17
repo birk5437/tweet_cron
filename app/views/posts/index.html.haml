@@ -9,7 +9,7 @@
       %th Text
       %th
   %tbody
-    - @posts.sort_by(&:created_at).reverse.each do |post|
+    - @posts.each do |post|
       %tr
         %td= post.created_at.to_s
         %td= post.post_at.to_s

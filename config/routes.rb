@@ -17,7 +17,7 @@ end
 
   devise_for :users, controllers: {registrations: "users/registrations", sessions: "users/sessions", passwords: "users/passwords"}, skip: [:sessions, :registrations]
 
-  root 'posts#index'
+  # root 'posts#index'
   require 'resque/scheduler/server'
   mount Resque::Server.new, :at => "/resque"
   # mount ResqueWeb::Engine => "/resque_web"
@@ -86,6 +86,18 @@ end
     post   "signup"  => "users/registrations#create", as: :user_registration
     put    "signup"  => "users/registrations#update", as: :update_user_registration
     get    "account" => "users/registrations#edit",   as: :edit_user_registration
+  end
+
+  authenticated :user do
+    devise_scope :user do
+      root to: "posts#index"#, :as => "profile"
+    end
+  end
+
+  unauthenticated do
+    devise_scope :user do
+      root to: "devise/sessions#new", :as => "unauthenticated"
+    end
   end
 
 end

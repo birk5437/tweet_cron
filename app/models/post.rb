@@ -4,6 +4,8 @@ class Post < ActiveRecord::Base
 
   validates_presence_of :text
 
+  validate :post_at_in_future
+
   after_save :schedule_job
 
   def client
@@ -42,11 +44,14 @@ class Post < ActiveRecord::Base
 
   def schedule_job
     if post_at_changed?
-      Rails::logger.warn("BURKE - ENQUEUEING POST")
       Resque.remove_delayed(PostSubmitWorker, id)
       Resque::Job.destroy(:tweet_cron, "PostSubmitWorker", id)
       Resque.enqueue_at(post_at, PostSubmitWorker, id)
     end
+  end
+
+  def post_at_in_future
+    errors.add(:post_at, "must be at least 1 minute in the future.") unless post_at >= DateTime.now + 1.minute
   end
 
 end

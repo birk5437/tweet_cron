@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
   before_filter :require_user_signed_in, only: [
+    :all,
     :new,
     :edit,
     :create,
@@ -16,7 +17,12 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.all.order("created_at DESC")
+    @posts = Post.where(["post_at > ?", DateTime.now]).order("post_at asc")
+  end
+
+  def all
+    @posts = Post.order("post_at desc")
+    render :index
   end
 
   # GET /posts/1

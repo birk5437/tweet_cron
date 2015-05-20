@@ -1,18 +1,21 @@
+
 = link_to "New Post", new_post_path, :class => "btn btn-success btn-large"
+= link_to "All Posts", all_posts_path, :class => "btn btn-default btn-large"
 
 - model_class = Post
 %table.table.table-striped
   %thead
     %tr
-      %th Created At
       %th Post At
       %th Text
       %th
   %tbody
     - @posts.each do |post|
       %tr
-        %td= post.created_at.to_s
-        %td= post.post_at.to_s
+        - if post.post_at.present?
+          %td= post.post_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")
+        - else
+          %td
         %td= post.text
         %td
           = link_to "Edit", edit_post_path(post)

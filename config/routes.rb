@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
 
   resources :posts do
+    collection do
+      get "all"
+    end
     member do
       get "publish_to_twitter"
       get "delete_from_twitter"
@@ -90,7 +93,7 @@ end
 
   authenticated :user do
     devise_scope :user do
-      root to: "posts#index"#, :as => "profile"
+      root to: "posts#all"#, :as => "profile"
     end
   end
 

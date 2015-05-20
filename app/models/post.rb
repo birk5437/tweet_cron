@@ -2,7 +2,7 @@ class Post < ActiveRecord::Base
 
   # TODO: Use Acts as State Machine gem
 
-  validates_presence_of :text
+  validates_presence_of :text, :post_at
 
   validate :post_at_in_future
 
@@ -51,7 +51,9 @@ class Post < ActiveRecord::Base
   end
 
   def post_at_in_future
-    errors.add(:post_at, "must be at least 1 minute in the future.") unless post_at >= DateTime.now + 1.minute
+    if post_at.present?
+      errors.add(:post_at, "must be at least 1 minute in the future.") unless post_at >= DateTime.now + 1.minute
+    end
   end
 
 end

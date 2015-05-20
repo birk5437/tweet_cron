@@ -2,20 +2,15 @@ class Post < ActiveRecord::Base
 
   # TODO: Use Acts as State Machine gem
 
-  validates_presence_of :text, :post_at
+  # has_and_belongs_to_many :linked_accounts
+  belongs_to :linked_account
+  attr_accessor :linked_account_ids
+
+  validates_presence_of :text, :linked_account
 
   validate :post_at_in_future
 
   after_save :schedule_job
-
-  def client
-    @client ||= Twitter::REST::Client.new do |config|
-      config.consumer_key        = "w9MMAFINKv0UVBTx0e3mdqcoQ"
-      config.consumer_secret     = "tzlAgPu6vGZMSYQhanVdH8WVu9IKvjW56WKtipKhMqmdiJSrKD"
-      config.access_token        = "3010624916-G2A3RGBeUF6uuUbAyO7ZA3EPt5eYjbVuYGnRwkC"
-      config.access_token_secret = "tfd7u4fgUm2MORvVwKWEacnyHIN8ITTgtxOAaVEnfeIoW"
-    end
-  end
 
   # TODO: Use Acts as State Machine gem
   def post_to_twitter
@@ -23,15 +18,20 @@ class Post < ActiveRecord::Base
       ActiveRecord::Base.transaction do
         self.published = true
         self.published_at = DateTime.now
+        save!
         tweet = client.update(text)
         self.tweet_id = tweet.id
         save!
+        return true
       end
+    else
+      return false
     end
   end
 
   # TODO: Use Acts as State Machine gem
   def delete_from_twitter
+    self.post_at = nil
     if valid?
       ActiveRecord::Base.transaction do
         self.published = false
@@ -39,6 +39,9 @@ class Post < ActiveRecord::Base
         self.save!
         client.destroy_status(tweet_id) if tweet_id.present?
       end
+      return true
+    else
+      return false
     end
   end
 
@@ -50,10 +53,28 @@ class Post < ActiveRecord::Base
     end
   end
 
+  private #####################################################################
+
+  #custom validation
   def post_at_in_future
-    if post_at.present?
+    if post_at.present? && post_at_changed?
       errors.add(:post_at, "must be in the future.") unless post_at >= DateTime.now
     end
+  end
+
+  def client
+    Twitter::REST::Client.new do |config|
+      config.consumer_key        = SECRET_CONFIG[Rails.env]["twitter"]["consumer_key"]
+      config.consumer_secret     = SECRET_CONFIG[Rails.env]["twitter"]["consumer_secret"]
+      config.access_token        = linked_account.auth_data[:oauth_token]
+      config.access_token_secret = linked_account.auth_data[:oauth_token_secret]
+    end
+    # TwitterOAuth::Client.new(
+    #     :consumer_key => SECRET_CONFIG[Rails.env]["twitter"]["consumer_key"],
+    #     :consumer_secret => SECRET_CONFIG[Rails.env]["twitter"]["consumer_secret"],
+    #     :token => linked_account.auth_data[:oauth_token],
+    #     :secret => linked_account.auth_data[:oauth_token_secret]
+    # )
   end
 
 end

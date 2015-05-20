@@ -1,5 +1,16 @@
 = @post.errors.full_messages.join("<br />").html_safe
 = form_for @post, :html => { :class => 'form-horizontal form-model' } do |f|
+  - if @post.new_record?
+    .form-group
+      = f.label :linked_account_ids, "Post As", :class => 'control-label col-md-2'
+      .col-md-10
+        = f.collection_check_boxes :linked_account_ids, current_user.linked_accounts, :id, :name do |b| "<div class ='checkbox-inline'>" + b.label { b.check_box + b.text } + "</div>" end
+  - else
+    .form-group
+      = f.label :linked_account_id, "Post As", :class => 'control-label col-md-2'
+      .col-md-10
+        - select_options = current_user.linked_accounts.map{ |acct| [acct.name, acct.id] }
+        = f.collection_select :linked_account_id, current_user.linked_accounts, :id, :name, prompt: @post.linked_account.blank?
   .form-group
     = f.label :text, :class => 'control-label col-md-2'
     .col-md-10
@@ -8,7 +19,7 @@
   .form-group
     = f.label :post_at, :class => 'control-label col-md-2'
     .col-md-10
-      - post_at_value = @post.post_at.present? ? @post.post_at.strftime("%m/%d/%Y %l:%M %p") : nil
+      - post_at_value = @post.post_at.present? ? @post.post_at.localtime.strftime("%m/%d/%Y %l:%M %p") : nil
       = f.text_field :post_at, :class => 'text-field form-control', :value => post_at_value
   .form-group
     .col-md-offset-2.col-md-10

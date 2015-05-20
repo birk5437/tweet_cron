@@ -8,6 +8,7 @@
 /.bundle
 
 config/database.yml
+config/secrets.yml
 .ruby-version
 config/initializers/resque_auth.rb
 # Ignore the default SQLite database.

@@ -53,6 +53,9 @@ gem 'acts_as_votable', github: 'ryanto/acts_as_votable'
 gem 'tzinfo-data'
 gem 'validates_formatting_of'
 gem 'twitter'
+# gem 'twitter_oauth'
+gem 'omniauth-twitter'
+
 gem 'chronic'
 
 gem 'momentjs-rails', '>= 2.9.0'

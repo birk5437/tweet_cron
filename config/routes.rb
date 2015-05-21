@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :linked_accounts
   resources :posts do
     collection do
       get "all"

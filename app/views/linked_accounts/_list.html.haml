@@ -1,0 +1,14 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th Name
+      %th Type
+      %th Created At
+      %th Updated At
+  %tbody
+    - linked_accounts.each do |linked_account|
+      %tr
+        %td= linked_account.name
+        %td= linked_account.account_type
+        %td= linked_account.created_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")
+        %td= linked_account.updated_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")

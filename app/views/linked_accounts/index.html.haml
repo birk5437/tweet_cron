@@ -1,0 +1,4 @@
+%h2 Linked Accounts
+%br
+= link_to "New Linked Account", new_linked_account_path, :class => "btn btn-success btn-large"
+= render partial: "linked_accounts/list", locals: {linked_accounts: @linked_accounts}

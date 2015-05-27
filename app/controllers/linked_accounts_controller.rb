@@ -1,3 +1,5 @@
+# require 'twitter_oauth'
+
 class LinkedAccountsController < ApplicationController
   before_filter :require_user_signed_in
   before_action :set_linked_account, only: [:show, :edit, :update, :destroy]
@@ -5,8 +7,7 @@ class LinkedAccountsController < ApplicationController
   # GET /linked_accounts
   # GET /linked_accounts.json
   def index
-    raise current_user.inspect
-    @linked_accounts = LinkedAccount.all
+    @linked_accounts = current_user.linked_accounts
   end
 
   # GET /linked_accounts/1
@@ -63,7 +64,46 @@ class LinkedAccountsController < ApplicationController
     end
   end
 
-  private
+  def twitter_callback
+    client = TwitterOAuth::Client.new(
+        :consumer_key => SECRET_CONFIG[Rails.env]["twitter"]["consumer_key"],
+        :consumer_secret => SECRET_CONFIG[Rails.env]["twitter"]["consumer_secret"],
+    )
+    # request_token_token = session[:request_token_token]
+    # request_token_secret = 
+    access_token = client.authorize(
+      session[:request_token_token],
+      session[:request_token_secret],
+      :oauth_verifier => params[:oauth_verifier]
+    )
+
+    @linked_account = current_user.linked_accounts.find_or_initialize_by(remote_identifier: access_token.params[:user_id], type: "TwitterAccount")
+
+    @linked_account.auth_data = access_token.params
+    @linked_account.updated_at = DateTime.now
+    @linked_account.save!
+
+    respond_to do |format|
+      format.html { redirect_to linked_accounts_url, notice: 'Account successfully authorized!' }
+      format.json { render :show, status: :ok, location: @linked_account }
+    end
+
+
+  end
+
+  def twitter_auth
+    client = TwitterOAuth::Client.new(
+        :consumer_key => SECRET_CONFIG[Rails.env]["twitter"]["consumer_key"],
+        :consumer_secret => SECRET_CONFIG[Rails.env]["twitter"]["consumer_secret"],
+    )
+    request_token = client.request_token(:oauth_callback => twitter_callback_linked_accounts_url)
+    session[:request_token_token] = request_token.token
+    session[:request_token_secret] = request_token.secret
+    redirect_to request_token.authorize_url + "&force_login=true"
+
+  end
+
+  private #####################################################################
     # Use callbacks to share common setup or constraints between actions.
     def set_linked_account
       @linked_account = LinkedAccount.find(params[:id])

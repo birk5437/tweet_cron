@@ -39,4 +39,5 @@
 <%= link_to "Back", :back %>
 
 <h2>Linked Accounts</h2>
-<%= link_to "Add New Account", new_linked_account_path %>
+<%= link_to "Add New Account", new_linked_account_path, :class => "btn btn-success btn-large" %>
+<%= render partial: "linked_accounts/list", locals: {linked_accounts: current_user.linked_accounts} %>

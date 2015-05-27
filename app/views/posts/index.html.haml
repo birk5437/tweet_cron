@@ -1,6 +1,9 @@
-
-= link_to "New Post", new_post_path, :class => "btn btn-success btn-large"
 = link_to "All Posts", all_posts_path, :class => "btn btn-default btn-large"
+= link_to "Future Posts", posts_path, :class => "btn btn-default btn-large"
+%br
+%br
+= link_to "New Post", new_post_path, :class => "btn btn-success btn-large"
+= link_to "Linked Accounts", linked_accounts_path, :class => "btn btn-success btn-large"
 
 - model_class = Post
 %table.table.table-striped
@@ -27,6 +30,6 @@
           - if post.published?
             = link_to "Un-publish from Twitter", delete_from_twitter_post_path(post), :class => "btn btn-info btn-danger"
           - else
-            = link_to "Publish to Twitter", publish_to_twitter_post_path(post), :class => "btn btn-info"
+            = link_to "Publish to Twitter", publish_to_twitter_post_path(post), :class => "btn btn-info btn-large"
 
     .col-xs2.col-md-2

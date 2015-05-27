@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
 
-  resources :linked_accounts
+  resources :linked_accounts do
+    member do
+    end
+    collection do
+      get "twitter_callback"
+      get "twitter_auth"
+    end
+  end
   resources :posts do
     collection do
       get "all"
@@ -94,7 +101,7 @@ end
 
   authenticated :user do
     devise_scope :user do
-      root to: "posts#all"#, :as => "profile"
+      root to: "posts#index"#, :as => "profile"
     end
   end
 

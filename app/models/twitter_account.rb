@@ -1,15 +1,13 @@
-class LinkedAccount < ActiveRecord::Base
-  belongs_to :user
-  serialize :auth_data, Hash
-
-  before_save :set_name
+class TwitterAccount < LinkedAccount
 
   def account_type
-    type
+    "Twitter"
   end
 
   private #####################################################################
 
   def set_name
+    self.name = auth_data[:screen_name]
   end
+
 end

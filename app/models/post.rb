@@ -2,7 +2,9 @@ class Post < ActiveRecord::Base
 
   # TODO: Use Acts as State Machine gem
 
-  validates_presence_of :text, :post_at
+  has_and_belongs_to_many :linked_accounts
+
+  validates_presence_of :text, :post_at, :linked_accounts
 
   validate :post_at_in_future
 

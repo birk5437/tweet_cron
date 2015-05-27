@@ -12,7 +12,7 @@
   .form-group
     = f.label :post_at, :class => 'control-label col-md-2'
     .col-md-10
-      - post_at_value = @post.post_at.present? ? @post.post_at.strftime("%m/%d/%Y %l:%M %p") : nil
+      - post_at_value = @post.post_at.present? ? @post.post_at.localtime.strftime("%m/%d/%Y %l:%M %p") : nil
       = f.text_field :post_at, :class => 'text-field form-control', :value => post_at_value
   .form-group
     .col-md-offset-2.col-md-10

@@ -1,4 +1,4 @@
-= link_to "All Posts", all_posts_path, :class => "btn btn-default btn-large"
+= link_to "All Posts", index_all_posts_path, :class => "btn btn-default btn-large"
 = link_to "Future Posts", posts_path, :class => "btn btn-default btn-large"
 %br
 %br
@@ -9,16 +9,15 @@
 %table.table.table-striped
   %thead
     %tr
+      %th Account
       %th Post At
       %th Text
       %th
   %tbody
     - @posts.each do |post|
       %tr
-        - if post.post_at.present?
-          %td= post.post_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")
-        - else
-          %td
+        %td= post.linked_account.try(:name)
+        %td= post.post_at.present? ? post.post_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)") : "&nbsp;".html_safe
         %td= post.text
         %td
           = link_to "Edit", edit_post_path(post)
@@ -28,8 +27,8 @@
                 :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }
         %td
           - if post.published?
-            = link_to "Un-publish from Twitter", delete_from_twitter_post_path(post), :class => "btn btn-info btn-danger"
+            = link_to "Un-publish", delete_from_twitter_post_path(post), :class => "btn btn-info btn-danger"
           - else
-            = link_to "Publish to Twitter", publish_to_twitter_post_path(post), :class => "btn btn-info btn-large"
+            = link_to "Publish Now!", publish_to_twitter_post_path(post), :class => "btn btn-info btn-large"
 
     .col-xs2.col-md-2

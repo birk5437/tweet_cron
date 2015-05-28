@@ -3,12 +3,19 @@
     %tr
       %th Name
       %th Type
-      %th Created At
-      %th Updated At
+      -#%th Created At
+      -#%th Updated At
+      %th
   %tbody
     - linked_accounts.each do |linked_account|
       %tr
         %td= linked_account.name
         %td= linked_account.account_type
-        %td= linked_account.created_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")
-        %td= linked_account.updated_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")
+        -#%td= linked_account.created_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")
+        -#%td= linked_account.updated_at.localtime.strftime("%A %B %e, %Y at %l:%M%P (%Z)")
+        %td
+          = link_to "Remove",
+                linked_account_path(linked_account),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure you want to remove this account?')) },
+                :class => "btn btn-info btn-danger"

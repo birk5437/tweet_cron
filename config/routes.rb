@@ -1,8 +1,6 @@
 Rails.application.routes.draw do
 
   resources :linked_accounts do
-    member do
-    end
     collection do
       get "twitter_callback"
       get "twitter_auth"
@@ -10,7 +8,7 @@ Rails.application.routes.draw do
   end
   resources :posts do
     collection do
-      get "all"
+      get "index_all"
     end
     member do
       get "publish_to_twitter"

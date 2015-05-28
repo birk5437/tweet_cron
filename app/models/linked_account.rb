@@ -1,6 +1,6 @@
 class LinkedAccount < ActiveRecord::Base
   belongs_to :user
-  has_and_belongs_to_many :posts
+  has_many :posts, :dependent => :destroy
 
   serialize :auth_data, Hash
 

@@ -38,13 +38,15 @@
   max-width: 450px;
 }
 
+.navbar-brand{ padding-top: 2px; padding-bottom: 64px;}
+.navbar-right{ margin-top: 7px; }
 
 
 // http://work.smarchal.com/twbscolor/css/e74c3cc0392becf0f1ffbbbc0
-//$bgDefault      : #9b59b6;
-$bgDefault      : #000000;
+$bgDefault      : #3399ff;
+// $bgDefault      : #000000;
 // $bgHighlight    : #c070e2;
-$bgHighlight    : #000000;
+$bgHighlight    : #3399ff;
 $colDefault     : #fed875;
 $colHighlight   : #f9f8fe;
 $dropDown       : false;

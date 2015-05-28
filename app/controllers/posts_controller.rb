@@ -89,7 +89,7 @@ class PostsController < ApplicationController
         format.html { redirect_to posts_path, notice: 'Post was successfully published to your Twitter feed.' }
         format.json { render :index, status: :created, location: @post }
       else
-        format.html { render :index }
+        format.html { redirect_to posts_path, notice: "Cannot Post: #{@post.errors.full_messages.join("<br />")}".html_safe }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
@@ -134,7 +134,7 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      hsh = params.require(:post).permit(:text, :type, :post_at, :linked_account_ids => [])
+      hsh = params.require(:post).permit(:text, :type, :post_at, :linked_account_id, :linked_account_ids => [])
       hsh[:post_at] = Chronic.parse(hsh[:post_at]) if hsh[:post_at].present?
       hsh
     end

@@ -22,7 +22,10 @@ class Post < ActiveRecord::Base
         tweet = client.update(text)
         self.tweet_id = tweet.id
         save!
+        return true
       end
+    else
+      return false
     end
   end
 

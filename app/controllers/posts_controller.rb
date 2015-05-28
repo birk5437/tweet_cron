@@ -1,17 +1,5 @@
 class PostsController < ApplicationController
-  before_filter :require_user_signed_in, only: [
-    :all,
-    :new,
-    :edit,
-    :create,
-    :update,
-    :destroy,
-    :index,
-    :show,
-    :vote,
-    :publish_to_twitter,
-    :delete_from_twitter
-  ]
+  before_filter :require_user_signed_in
   before_action :set_post, only: [:show, :edit, :update, :destroy, :vote, :delete_from_twitter, :publish_to_twitter]
 
   # GET /posts

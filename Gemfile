@@ -72,4 +72,6 @@ gem 'resque-scheduler', :require => 'resque/scheduler'
 gem "resque-status"
 gem "resque-retry"
 
+gem "recaptcha", :require => "recaptcha/rails"
+
 # gem 'date_validator'

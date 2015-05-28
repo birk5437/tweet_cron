@@ -27,7 +27,13 @@
       <%= f.password_field :password_confirmation, class: "text-field form-control", html: {autocomplete: "off"} %>
     </div>
   </div>
-     
+  <div class="form-group">
+    <div class="col-md-8">
+      <%= recaptcha_tags %>
+    </div>
+  </div>
+
+
   <div class="form-group">
     <div class="col-md-offset-4 col-md-8">
       <%= f.submit "Sign Up", class: "btn btn-primary" %>

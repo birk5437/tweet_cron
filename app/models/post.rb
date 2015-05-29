@@ -58,7 +58,7 @@ class Post < ActiveRecord::Base
   #custom validation
   def post_at_in_future
     if post_at.present? && post_at_changed?
-      errors.add(:post_at, "must be at least 1 minute in the future.") unless post_at >= DateTime.now + 1.minute
+      errors.add(:post_at, "must be in the future.") unless post_at >= DateTime.now
     end
   end
 

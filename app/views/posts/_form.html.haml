@@ -4,6 +4,7 @@
     = f.label :text, :class => 'control-label col-md-2'
     .col-md-10
       = f.text_area :text, :class => 'text-field form-control'
+      %span.help-block{id: "character_count"}= 140 - @post.text.length
   .form-group
     = f.label :post_at, :class => 'control-label col-md-2'
     .col-md-10
@@ -21,4 +22,9 @@
     $("#post_post_at").datetimepicker({
       sideBySide: true
     });
+
+    $("#post_text").on("keyup", function(){
+      $("#character_count").html(140 - $(this).val().length);
+    });
+
   });

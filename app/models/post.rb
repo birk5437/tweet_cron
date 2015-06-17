@@ -19,6 +19,7 @@ class Post < ActiveRecord::Base
 
   # TODO: Use Acts as State Machine gem
   def post_to_twitter
+    # http://stackoverflow.com/questions/26231953/uploading-multiple-images-on-twitter-using-ruby-on-rails-twitter-gem
     if valid?
       ActiveRecord::Base.transaction do
         self.published = true

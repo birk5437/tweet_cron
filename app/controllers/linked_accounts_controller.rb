@@ -103,6 +103,24 @@ class LinkedAccountsController < ApplicationController
 
   end
 
+  def omniauth_callback
+    @linked_account = current_user.linked_accounts.find_or_initialize_by(remote_identifier: omniauth_auth_hash[:uid], type: "FacebookAccount")
+    @linked_account.auth_data = omniauth_auth_hash
+    @linked_account.updated_at = DateTime.now
+    @linked_account.save!
+
+    respond_to do |format|
+      format.html { redirect_to linked_accounts_url, notice: 'Account successfully authorized!' }
+      format.json { render :show, status: :ok, location: @linked_account }
+    end
+  end
+
+  protected ###################################################################
+
+  def omniauth_auth_hash
+    request.env['omniauth.auth']
+  end
+
   private #####################################################################
     # Use callbacks to share common setup or constraints between actions.
     def set_linked_account

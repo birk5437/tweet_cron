@@ -7,7 +7,7 @@ class LinkedAccount < ActiveRecord::Base
   before_save :set_name
 
   def account_type
-    type
+    type.gsub("Account", "")
   end
 
   private #####################################################################

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get '/auth/:provider/callback', to: 'linked_accounts#omniauth_callback'
+
   resources :linked_accounts do
     collection do
       get "twitter_callback"

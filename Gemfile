@@ -77,4 +77,6 @@ gem "resque-retry"
 
 gem "recaptcha", :require => "recaptcha/rails"
 
+gem "koala", "~> 2.0"
+
 # gem 'date_validator'

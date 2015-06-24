@@ -29,6 +29,12 @@ class Post < ActiveRecord::Base
     end
   end
 
+  def post_to_facebook
+    profile = facebook_client.get_object("me")
+    friends = facebook_client.get_connections("me", "friends")
+    facebook_client.put_connections("me", "feed", :message => "text")
+  end
+
   # TODO: Use Acts as State Machine gem
   def delete_from_twitter
     self.post_at = nil
@@ -75,6 +81,10 @@ class Post < ActiveRecord::Base
     #     :token => linked_account.auth_data[:oauth_token],
     #     :secret => linked_account.auth_data[:oauth_token_secret]
     # )
+  end
+
+  def facebook_client
+    @graph ||= Koala::Facebook::API.new(linked_account.auth_data["credentials"]["token"])
   end
 
 end

@@ -29,10 +29,15 @@ class Post < ActiveRecord::Base
     end
   end
 
+  # TODO: Use Acts as State Machine gem
   def post_to_facebook
+    # TODO: make post model polymorphic
+    # TODO: change post status
     profile = facebook_client.get_object("me")
     friends = facebook_client.get_connections("me", "friends")
-    facebook_client.put_connections("me", "feed", :message => "text")
+    response = facebook_client.put_connections("me", "feed", :message => text)
+    self.tweet_id = response["id"]
+    save!
   end
 
   # TODO: Use Acts as State Machine gem

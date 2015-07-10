@@ -1,5 +1,5 @@
 = @post.errors.full_messages.join("<br />").html_safe
-= form_for @post, :html => { :class => 'form-horizontal form-model' } do |f|
+= form_for(@post, :html => { :class => 'form-horizontal form-model' }, :url => {controller: "posts", action: @post.new_record? ? "create" : "update" }) do |f|
   - if @post.new_record?
     .form-group
       = f.label :linked_account_ids, "Post As", :class => 'control-label col-md-2'

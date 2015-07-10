@@ -13,7 +13,7 @@ class PostSubmitWorker
 
 
     if dates_match
-      post_to_submit.post_to_twitter
+      post_to_submit.publish
     else
       raise "ERROR - post_at doesn't match DateTime.now!  Post ID #{post_id} - #{current_date.to_s}, #{post_at_date.to_s}, #{dates_match} "
     end

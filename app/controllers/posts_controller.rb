@@ -73,7 +73,7 @@ class PostsController < ApplicationController
 
   def publish_to_twitter
     respond_to do |format|
-      if @post.post_to_twitter
+      if @post.publish
         format.html { redirect_to posts_path, notice: 'Post was successfully published to your Twitter feed.' }
         format.json { render :index, status: :created, location: @post }
       else
@@ -98,12 +98,13 @@ class PostsController < ApplicationController
   private #####################################################################
 
     def create_multiple_from_linked_accounts(linked_accounts)
-      return (@post = Post.new(post_params) and @post.save) unless linked_accounts.present?
+      raise "Linked accounts required!" unless linked_accounts.present?
+      # return (@post = Post.new(post_params) and @post.save) unless linked_accounts.present?
       begin
         ActiveRecord::Base.transaction do
           linked_accounts.each do |linked_account|
             save_successful = false
-            @post = Post.new(post_params)
+            @post = linked_account.new_post(post_params)
             @post.linked_account = linked_account
             @post.save!
             save_successful = true
@@ -122,7 +123,13 @@ class PostsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def post_params
-      hsh = params.require(:post).permit(:text, :type, :post_at, :linked_account_id, :linked_account_ids => [])
+      if params[:facebook_post].present?
+        hsh = params.require(:facebook_post).permit(:text, :type, :post_at, :linked_account_id, :linked_account_ids => [])
+      elsif params[:twitter_post].present?
+        hsh = params.require(:twitter_post).permit(:text, :type, :post_at, :linked_account_id, :linked_account_ids => [])
+      else
+        hsh = params.require(:post).permit(:text, :type, :post_at, :linked_account_id, :linked_account_ids => [])
+      end
       hsh[:post_at] = Chronic.parse(hsh[:post_at]) if hsh[:post_at].present?
       hsh
     end

@@ -2,10 +2,10 @@ class Post < ActiveRecord::Base
 
   # TODO: Use Acts as State Machine gem
 
-  # has_and_belongs_to_many :linked_accounts
   belongs_to :linked_account
   attr_accessor :linked_account_ids
 
+  before_validation :set_type
   validates_presence_of :text, :linked_account
 
   validate :post_at_in_future
@@ -13,31 +13,8 @@ class Post < ActiveRecord::Base
   after_save :schedule_job
 
   # TODO: Use Acts as State Machine gem
-  def post_to_twitter
-    if valid?
-      ActiveRecord::Base.transaction do
-        self.published = true
-        self.published_at = DateTime.now
-        save!
-        tweet = client.update(text)
-        self.tweet_id = tweet.id
-        save!
-        return true
-      end
-    else
-      return false
-    end
-  end
-
-  # TODO: Use Acts as State Machine gem
-  def post_to_facebook
-    # TODO: make post model polymorphic
-    # TODO: change post status
-    profile = facebook_client.get_object("me")
-    friends = facebook_client.get_connections("me", "friends")
-    response = facebook_client.put_connections("me", "feed", :message => text)
-    self.tweet_id = response["id"]
-    save!
+  #override in subclass
+  def publish
   end
 
   # TODO: Use Acts as State Machine gem
@@ -74,12 +51,7 @@ class Post < ActiveRecord::Base
   end
 
   def client
-    Twitter::REST::Client.new do |config|
-      config.consumer_key        = SECRET_CONFIG[Rails.env]["twitter"]["consumer_key"]
-      config.consumer_secret     = SECRET_CONFIG[Rails.env]["twitter"]["consumer_secret"]
-      config.access_token        = linked_account.auth_data[:oauth_token]
-      config.access_token_secret = linked_account.auth_data[:oauth_token_secret]
-    end
+
     # TwitterOAuth::Client.new(
     #     :consumer_key => SECRET_CONFIG[Rails.env]["twitter"]["consumer_key"],
     #     :consumer_secret => SECRET_CONFIG[Rails.env]["twitter"]["consumer_secret"],
@@ -88,8 +60,10 @@ class Post < ActiveRecord::Base
     # )
   end
 
-  def facebook_client
-    @graph ||= Koala::Facebook::API.new(linked_account.auth_data["credentials"]["token"])
+  def set_type
+    if linked_account.present?
+      self.type = "#{linked_account.account_type}Post"
+    end
   end
 
 end

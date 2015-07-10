@@ -1,5 +1,9 @@
 class TwitterAccount < LinkedAccount
 
+  def new_post(params={})
+    TwitterPost.new(params)
+  end
+
   def account_type
     "Twitter"
   end

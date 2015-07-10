@@ -5,7 +5,8 @@ class PostsController < ApplicationController
   # GET /posts
   # GET /posts.json
   def index
-    @posts = Post.where(["linked_account_id in (?) AND (post_at > ? or post_at is null)", current_user.linked_accounts.pluck(:id), DateTime.now]).order("post_at asc")
+    # @posts = Post.where(["linked_account_id in (?) AND (post_at > ? or post_at is null)", current_user.linked_accounts.pluck(:id), DateTime.now]).order("post_at asc")
+    @posts = Post.where(["linked_account_id in (?)", current_user.linked_accounts.pluck(:id)])
   end
 
   def index_all

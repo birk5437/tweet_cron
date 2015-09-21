@@ -105,8 +105,8 @@ end
 
   unauthenticated do
     devise_scope :user do
-      # root to: "devise/sessions#new", :as => "unauthenticated"
-      root to: "devise/registrations#new", :as => "unauthenticated"
+      root to: "devise/sessions#new", :as => "unauthenticated"
+      # root to: "devise/registrations#new", :as => "unauthenticated"
     end
   end
 
